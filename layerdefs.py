@@ -38,14 +38,14 @@ class L23:
     self.n23 = n23
     self.n4 = n4
 
+    # create input weight matrix with weights chosen by Gaussian distribution
     stdv = 1/math.sqrt(n4)
     self.inputWeightMatrix = numpy.random.normal(mean, stdv, (n23, n4))
 
+    # create recurrent weight matrix, set diagonal to zero
     stdv = 1/math.sqrt(n23)
     self.recurrentWeightMatrix = numpy.random.normal(mean, stdv, (n23, n23))
-    print self.inputWeightMatrix
-    print self.recurrentWeightMatrix
-
+    numpy.fill_diagonal(self.recurrentWeightMatrix, 0)
 
 # # a basic implementation of layer 6 
 # class L6:

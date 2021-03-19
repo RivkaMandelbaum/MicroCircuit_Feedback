@@ -70,5 +70,5 @@ def net_input_vector(weight_matrix, spiking_input):
     function. Returns numpy array. 
     """
     m = len(weight_matrix)
-    result_vec = [net_input(weight_matrix, j, spiking_input) for j in range(m)]
+    result_vec = [net_input(weight_matrix, i, spiking_input) for i in range(m)]
     return numpy.array(result_vec)

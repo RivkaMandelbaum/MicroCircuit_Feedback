@@ -37,16 +37,18 @@ def write_L4_freqs(n4, sig_out, output_filename, mode='w', execs=100):
 def write_L23_freqs(n23, vec, output_filename, mode = 'w', execs=100, recalc_L4 = False, recalc_L23 = False):
     """ writes firing rates of neurons in L23 after recurrent activity in format readable by MATLAB, to output_filename. Runs a default of 100 times. 
     Overwrites file by default, but mode can be specified. 
-    If recalc_L4 and recalc_L23 are false, vec should be a sig_out vector representing probability of L23 recurrent layer firing. 
+    If recalc_L4 and recalc_L23 are false, vec should be a sig_out vector representing probability of L23 recurrent layer firing. (Default case).
     If recalc_L23 is true but recalc_L4 is false, vec should be an L4 spike 
     vector. 
     If recalc_L4 is true, recalc_L23 must be true and vec should be a sig_out
     vector representing probability of firing in L4.  
     """
+    if recalc_L4 and not recalc_L23: 
+        print "Error: if L4 is recalculated, L23 must be recalculated"
 
     freqs = [0 for nrn in range(n23)]
     for i in range(execs):
-        spike_vec = lfuncs.probvec_to_spikevec(sig_out)
+        spike_vec = lfuncs.probvec_to_spikevec(vec)
         for nrn in lfuncs.spikevec_where(spike_vec):
             freqs[nrn]+=1
     

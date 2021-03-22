@@ -4,6 +4,7 @@ import numpy
 import layerdefs as ldefs
 import layerfuncs as lfuncs
 import freqTesting as freq
+import os
 
 def main():
   """ reads input_filename and output_filename from command line. 
@@ -100,7 +101,31 @@ def main():
   #freq.check_L23_freqs(n23, output_filename, L23_sig_out)
   #freq.check_L23_freqs(n23, output_filename, L23r_sig_out, mode ='a')
   #freq.compare_L23_rates(n23, output_filename, L23_sig_out, L23r_sig_out, mode='w')
-  freq.write_L23_freqs(n23, L23r_sig_out, output_filename, mode='a')
+  #freq.write_L23_freqs(n23, L23r_sig_out, output_filename, mode='a')
+
+  execs = 100
+  mode = 'a'
+  freqs = [0 for nrn in range(n23)]
+  for i in range(execs):
+    L4_spike_vec = lfuncs.probvec_to_spikevec(L4_sig_out)
+    L23_exc_vec = lfuncs.net_input_vector(l23.inputWeightMatrix, L4_spiking_input)
+    L23_sig_out = lfuncs.sig_prob(L23_exc_vec, beta, theta)
+    L23_spike_vec = lfuncs.probvec_to_spikevec(L23_sig_out)
+    L23_spiking_input = lfuncs.spikevec_where(L23_spike_vec)
+    L23r_exc_vec = lfuncs.net_input_vector(l23.recurrentWeightMatrix, L23_spiking_input)
+    L23r_sig_out = lfuncs.sig_prob(L23r_exc_vec, beta, theta)
+    L23r_spike_vec = lfuncs.probvec_to_spikevec(L23r_sig_out)
+    for nrn in lfuncs.spikevec_where(L23r_spike_vec):
+      freqs[nrn]+=1
+    
+  out = open(output_filename, mode)
+  out.write(os.path.basename(args[0]) + ", ")
+  for f in freqs:
+    out.write("%d, " % f)
+  out.write('\n')
+  out.close()
+
+
 
 if __name__ == "__main__":
   main()

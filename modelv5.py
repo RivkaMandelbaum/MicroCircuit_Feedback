@@ -146,7 +146,7 @@ def main():
     l4_out.write("%d, " % f)
   l4_out.write('\n')
   for line in l4_out_matrix:
-    l4_out.write(str(line))
+    l4_out.write(', '.join(map(str,line)))
     l4_out.write('\n')
   l4_out.close()
 
@@ -155,7 +155,7 @@ def main():
     l23_out.write("%d, " % f)
   l23_out.write('\n')
   for line in l23_out_matrix:
-    l23_out.write(str(line))
+    l23_out.write(', '.join(map(str,line)))
     l23_out.write('\n')
   l23_out.close()
 

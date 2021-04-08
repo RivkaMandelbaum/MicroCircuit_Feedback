@@ -88,7 +88,7 @@ def main():
 
     for i in range(num_stimuli):
         num_stim_appeared = float(num_timebins_stimulus[i])
-        print >> sys.stderr, num_stim_appeared
+        print >> sys.stderr, "Stimulus %d appeared %f times" % (i, num_stim_appeared)
         print "Stimulus %d," % i,
         print ", ".join(str(j/num_stim_appeared) for j in indexed_by_stim[i])
     

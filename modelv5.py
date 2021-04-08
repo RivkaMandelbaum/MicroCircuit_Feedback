@@ -3,28 +3,33 @@ import time
 import numpy
 import layerdefs as ldefs
 import layerfuncs as lfuncs
-import freqTesting as freq
 import os
 
 def main():
-  """ reads four filenames from command line:
-        - param_filename: the file should contain input parameters, described in "usage" sections of input files. 
-        - stim_filename: the file should contain stimulus vectors, one on each line. (minimum one stimulus). 
-        - l4_output_filename: will put l4 firing rates in this file. 
-        - l23_output_filename: will put l23 firing rates in this file. 
-      
+  """ reads filename and flags from command line. The file named should contain:
+        Line 1: input parameters, described in "usage" sections of input files. 
+        Line 2: stim_filename: the file should contain stimulus vectors, one on each line. (minimum one stimulus). 
+        Line 3: l4_output_filename: will put l4 firing rates in this file. 
+        Line 4:l23_output_filename: will put l23 firing rates in this file. 
+        Line 5: [if -m flag specified] file with weight matrices
+        Line 6: [if -s flag specified] file to save weight matrices into
+      The flags available are: -m (use weight matrices from file to initialize layers), -s (save weight matrices to file at the end), and -w (overwrite output files, rather than appending). 
+
       creates L4 and L23 objects; calculates the firing rates in response to the stimuli given. each stimulus defines a separate timebin. 
   """
 
   # -------- input ------------------------
   # get command line arguments into args array
   args = sys.argv[1:] 
-  if not args or len(args) != 4:
-    print "usage: param_filename stim_filename l4_output_filename l23_output_filename"
+  if not args or len(args) > 4:
+    print "usage: param_filename [-m] [s] [-w]"
     sys.exit(1)
+  
+  param_file = open(args[0], 'r')
+  del args[0]
 
   # get parameters into correct variables
-  params = (open(args[0], 'r').readline()).split()
+  params = (param_file.readline()).split()
   if len(params) > 10 or len(params) < 8:
     print "usage: n23 mean stdp_eta n4 L k beta theta [non-k] [random]"
     sys.exit(1)
@@ -48,9 +53,9 @@ def main():
 
   # get stimuli into an array 
   stimuli = []
-  stim_file = open(args[1], 'r')
+  stim_file = open((param_file.readline()).rstrip('\n'), 'r')
 
-  stim_line = stim_file.readline()
+  stim_line = stim_file.readline() 
   if stim_line == "":
     print "error! there must be at least one stimulus"
     sys.exit(1)
@@ -64,16 +69,80 @@ def main():
     stim_line = stim_file.readline()
 
   stimuli = numpy.asarray(stimuli)
-  
+
+  # save other parameter names (matrices_file and/or save_file)
+  mode = 'a'
+  flag_s = False
+  flag_m = False
+
+  for i in range(1, len(args)):
+    if args[i] == "-w":
+      mode = 'w'
+      del args[i]
+      break
+      
+  l4_out = open((param_file.readline()).rstrip('\n'), mode)
+  l23_out = open((param_file.readline()).rstrip('\n'), mode)
+
+  # if there are flags (remaining elements in args array), save information as needed
+  if len(args) > 0:
+    # one flag
+    if len(args) == 1:
+      if args[0] == "-m":
+        matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+        flag_m = True
+      elif args[0] == "-s":
+        save_file = open((param_file.readline()).rstrip('\n'), mode)
+        flag_s = True
+      else:
+        print "Only -s, -m, and -w are valid flags"
+        sys.exit(1)
+    # two flags
+    elif len(args) == 2: 
+      # -m first
+      if args[0] == "-m":
+        matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+        flag_m = True
+        if args[1] == "-s":
+          save_file = open((param_file.readline()).rstrip('\n'), mode)
+          flag_s = True
+        else:
+          print "Only -s, -m, and -w are valid flags"
+          sys.exit(1)
+      # -s first
+      elif args[0] == "-s":
+        save_file = open((param_file.readline()).rstrip('\n'), mode)
+        flag_s = True
+        if args[1] == "-m":
+          matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+          flag_m = True
+        else:
+          print "Only -s, -m, and -w are valid flags"
+          sys.exit(1)
+      # error
+      else:
+        print "Only -s, -m, and -w are valid flags"
+        sys.exit(1)
+
   # ---- setup of main network loop --------------
   # timing info, and message that shows it started
-  start = time.clock()
+  start_time = time.clock()
   print "Starting."
 
   # create layers
-  l4 = ldefs.L4(n4, L, k, randomize=rand, non_k=non_k)
-  l23 = ldefs.L23(n23, n4, mean, stdp_eta)
+  if flag_m:
+    l4_weight_string = matrices_file.readline()
+    l23_input_string = matrices_file.readline()
+    l23_recurrent_string = matrices_file.readline()
 
+    l4 = ldefs.L4(n4, L, k, randomize=rand, non_k=non_k, given_weight_matrix=l4_weight_string)
+
+    l23 = ldefs.L23(n23, n4, mean, stdp_eta, given_weight_matrices=(l23_input_string, l23_recurrent_string))
+
+  else:
+    l4 = ldefs.L4(n4, L, k, randomize=rand, non_k=non_k)
+    l23 = ldefs.L23(n23, n4, mean, stdp_eta)
+  
   # create data structures to store info about network:
     # the number of times each neuron fired:
   l4_freqs = [0 for nrn in range(n4)]
@@ -115,16 +184,27 @@ def main():
     # calculate excitation of L23 at time t = inputWeightMatrix * L4_(t-1) + recurrentWeightMatrix * L_23(t-1)
     l23_exc = lfuncs.net_input_vector(l23.inputWeightMatrix, l4_spiking_input) + lfuncs.net_input_vector(l23.recurrentWeightMatrix, l23_spiking_input)
 
-    # turn excitation into spikes; save 
+    # turn excitation into spikes
     l23_sig = lfuncs.sig_prob(l23_exc, beta, theta)
     l23_spike_vec = lfuncs.probvec_to_spikevec(l23_sig)
 
+    # save spikes and firing rates
     l23_out_matrix.append(l23_spike_vec)
 
-    # turn spike_vec into list of indices of neurons that spiked, update firing rates
+    prev_l23_spiking_input = l23_spiking_input
     l23_spiking_input = lfuncs.spikevec_where(l23_spike_vec)
+
     for nrn in l23_spiking_input:
       l23_freqs[nrn] += 1
+
+    # use saved spikes and current spikes to implement stdp rule:
+    # synapse k>k' is represented by l23.recurrentWeightMatrix[k'][k]
+    # for k>k', if k spiked in t-1 and k' spiked in t, increase weight by eta
+    # if k spiked in t and k' in t-1, decrease weight by eta
+    for curr_spike in l23_spiking_input: 
+      for prev_spike in prev_l23_spiking_input:
+        l23.recurrentWeightMatrix[curr_spike][prev_spike] += l23.eta
+        l23.recurrentWeightMatrix[prev_spike][curr_spike] -= l23.eta
 
     # calculate excitation of L4 at time t
     l4_exc = lfuncs.excitation(l4, curr_stim)
@@ -141,7 +221,6 @@ def main():
       l4_freqs[nrn] += 1
   
   # write firing rates to output files in plottable format 
-  l4_out = open(args[2], 'a')
   for f in l4_freqs:
     l4_out.write("%d, " % f)
   l4_out.write('\n')
@@ -150,7 +229,6 @@ def main():
     l4_out.write('\n')
   l4_out.close()
 
-  l23_out = open(args[3], 'a')
   for f in l23_freqs:
     l23_out.write("%d, " % f)
   l23_out.write('\n')
@@ -159,8 +237,16 @@ def main():
     l23_out.write('\n')
   l23_out.close()
 
-  end = time.clock()
-  print "Finished. Total time: %f" % (end - start)
+  # save weight matrices to file if -s flag specified
+  if flag_s: 
+    (l4.weightMatrix).tofile(save_file, sep= ",", format = "%s")
+    save_file.write('\n')
+    (l23.inputWeightMatrix).tofile(save_file, sep= ",", format = "%s")
+    save_file.write('\n')
+    (l23.recurrentWeightMatrix).tofile(save_file, sep= ",", format = "%s")
+
+  end_time = time.clock()
+  print "Finished. Total time: %f" % (end_time - start_time)
 
 
 

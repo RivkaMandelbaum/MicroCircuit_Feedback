@@ -19,34 +19,34 @@ def write_seq(out, vecs, linesToPrint):
 def main():
     """ appends to file with name output_filename, 
     n repetitions of each of the vec[1-9].txt files in 
-    input-files folder, in random order if -random order
+    input-files/vecs folder, in random order if --random order
     or using hidden markov model to generate sequences mixed with noise. 
     """
     # get arguments
     args = sys.argv[1:]
     if not args or len(args) > 3:
-        print "usage: output_filename n [-random]"
+        print "usage: output_filename n [--random]"
         sys.exit(1)
 
     output_filename = args[0]
     n = int(args[1])
     hmm = True
     if len(args) == 3:
-        if args[2] == "-random":
+        if args[2] == "--random":
             hmm = False
         else:
             print "final argument should be -random flag"
             sys.exit(1)
 
     # create list of vectors (stimuli to print to file)
-    filenames = os.listdir("input-files")
+    filenames = os.listdir("input-files/vecs")
     vecs = []
     vecnames = []
 
     for f in filenames:
         match = re.search("vec[1-9]\.txt", f)
         if match:
-            fullname = "input-files/" + match.group()
+            fullname = "input-files/vecs/" + match.group()
             vecnames.append(fullname)
     
     vecnames.sort()

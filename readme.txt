@@ -1,19 +1,19 @@
 In this directory:
 The main simulation: 
-    - modelv4.py: L4 and L23 spiking with recurrence 
+    - modelv6.py: the network itself. Calculates firing rates in response to stimuli provided. Outputs L4 and L23 firing rates and plots in most basic usage.  
 
 Library files:
     - layerfuncs.py: functions related to layer objects
     - layerdefs.py: the definitions of layer objects 
 
 Other files:
-    - freqTesting.py: tests the firing rates over a large number of executions
-    - append-usage-description.py: appends the text in usage_string_filename to all files in directory whose name matches in[0-9]+.*txt 
+    - calculateFiringRates.py: calculates the firing rate of each neuron in layer 2/3 in response to each stimulus. With --layer4 flag, does this for layer 4. Can also calculate for a specific stimulus if given on command line.
+    - generateInput.py: generates input to the model. Appends n repetitions of each stimulus vector using a hidden markov model, or random if -random specified. 
+    - processWeightMatrix.py: processes weight matrices output by numpy.ndarray.tofile() into a more convenient format for MATLAB 
 
-Sub-directories:
-    - older-versions: old files and versions no longer in use, including:
-    	- modelv1.py: input vector to get output of what spiked with L4 only
-    	- modelv2.py:  L4 and L23 without recurrence, but L23 acts as if all L4 neurons spiked
-    	- modelv3.py: L4 and L23 without recurrence; L23 uses L4 spiking as input
-    - input-files: input files with parameter and stimulus vectors have the form in[0-9].txt (randomize which L4 neurons respond to which stimuli = false) or in[0-9]rand.txt (randomize = true). Stimulus vectors alone have the form vec[0-9].txt. Sub-directory L4 has input files with parameters that were needed in modelv1.py, which only relate to L4. 
-    - output-files: in each sub-directory, out[0-9].txt and out[0-9]rand.txt contain the firing rates of neurons in L23 given the corresponding input file. out-all.txt has one row for each stimulus and is importable to MATLAB. L23-input-all-L4-spike corresponds to modelv2.py, which does not have recurrence in L23 and which assumes that all L4 neurons spiked. L4-only is firing rates of L4 neurons in response to stimuli with no other layers attached. L23-recurrent is firing rates of L23 after recurrence. 
+Sub-directories: 
+    - older-versions: old files and versions no longer in use. 
+    - input-files: input files. 
+    - output-files: output files. 
+    - plots: plots of various results. 
+Each subdirectory has its own readme. 

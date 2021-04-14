@@ -1,0 +1,6 @@
+72 0 .2 36 9 4 3 0 -1 False 
+0 1 0 0 0 0 0 0 0
+usage: 
+Line 1: n23 mean stdep_eta n4 L k beta theta [non-k] [random]
+Line 2: stimuli represented by 1's if present, 0's otherwise. separated by whitespace.
+Line 3 onward is not read by program.

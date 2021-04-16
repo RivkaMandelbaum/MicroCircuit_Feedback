@@ -43,7 +43,7 @@ class L4:
         l4_weight_list = [int(i) for i in given_weight_matrix.split(",")]
         
         if len(l4_weight_list) != (self.n4 * self.L):
-          print "Error! String provided to initialize L4 weight matrix must have length n4 * L."
+          print("Error! String provided to initialize L4 weight matrix must have length n4 * L.")
           sys.exit(1)
 
         for nrn in range(self.n4):
@@ -52,7 +52,7 @@ class L4:
           self.weightMatrix[nrn] = numpy.array(l4_weight_list[start:end])
       else:
         if given_weight_matrix.shape != (n4, L):
-          print "Error! Matrix provided to initialize L4 weight matrix must have shape (n4, L)"
+          print("Error! Matrix provided to initialize L4 weight matrix must have shape (n4, L)")
           sys.exit(1)
         self.weightMatrix = given_weight_matrix
       
@@ -83,7 +83,7 @@ class L23:
     # initialize from given weight matrices (should be a tuple with two elements)
     else:
       if len(given_weight_matrices) != 2:
-        print "Error: kwarg given_weight_matrices in initializion of L23 object must be a tuple of (inputWeighMatrix, recurrentWeightMatrix)"
+        print("Error: kwarg given_weight_matrices in initializion of L23 object must be a tuple of (inputWeighMatrix, recurrentWeightMatrix)")
         sys.exit(1)
 
       self.inputWeightMatrix = numpy.zeros((self.n23, self.n4))
@@ -94,7 +94,7 @@ class L23:
       if type(given_weight_matrices[0]) is str:
         l23_weight_list = [float(i) for i in given_weight_matrices[0].split(",")]
         if len(l23_weight_list) != (self.n23 * self.n4):
-          print "Error! String provided to initialize L23 input weight matrix must have length n23 * n4."
+          print("Error! String provided to initialize L23 input weight matrix must have length n23 * n4.")
           sys.exit(1)
 
         for nrn in range(self.n23):
@@ -104,7 +104,7 @@ class L23:
       # given as complete matrix
       else:
         if given_weight_matrices[0].shape != (self.n23, self.n4):
-          print "Error! Matrix provided to initialize L23 input weight matrix must have shape (n23, n4)"
+          print("Error! Matrix provided to initialize L23 input weight matrix must have shape (n23, n4)")
           sys.exit(1)
 
         self.inputWeightMatrix = given_weight_matrices[0]
@@ -114,7 +114,7 @@ class L23:
       if type(given_weight_matrices[1]) is str:
         l23_weight_list = [float(i) for i in given_weight_matrices[1].split(",")]
         if len(l23_weight_list) != (self.n23 * self.n23):
-          print "Error! String provided to initialize L23 recurrent weight matrix must have length n23 * n23."
+          print("Error! String provided to initialize L23 recurrent weight matrix must have length n23 * n23.")
           sys.exit(1)
         for nrn in range(self.n23):
           start = nrn * self.n23
@@ -123,7 +123,7 @@ class L23:
       # given as complete matrix
       else:
         if given_weight_matrices[1].shape != (self.n23, self.n23):
-          print "Error! Matrix provided to initialize L23 recurrent weight matrix must have shape (n23, n23)"
+          print("Error! Matrix provided to initialize L23 recurrent weight matrix must have shape (n23, n23)")
           sys.exit(1) 
 
         self.recurrentWeightMatrix = given_weight_matrices[1]

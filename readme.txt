@@ -8,7 +8,7 @@ Library files:
 
 Other files:
     - calculateFiringRates.py: calculates the firing rate of each neuron in layer 2/3 in response to each stimulus. With --layer4 flag, does this for layer 4. Can also calculate for a specific stimulus if given on command line.
-    - generateInput.py: generates input to the model. Appends n repetitions of each stimulus vector using a hidden markov model, or random if -random specified. 
+    - generateInput.py: generates input to the model. Creates n repetitions of each stimulus vector using a hidden markov model, or random if -random specified. Creates new file in input-files/stims unless mode and filename specified. 
     - processWeightMatrix.py: processes weight matrices output by numpy.ndarray.tofile() into a more convenient format for MATLAB 
 
 Sub-directories: 

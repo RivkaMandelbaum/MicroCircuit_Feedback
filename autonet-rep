@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# automates generating input and running network 
+# run from top-level project directory
+
+# use generateInput.py
+OUTFILE=$(python3 generateInput.py $1 $2)
+RM_EXT=$(echo $OUTFILE | cut -d'.' -f 1)
+BASENAME=${RM_EXT:18}
+
+# get parameter file to give to the model
+PARAMFILE="input-files/paramfiles/params-${BASENAME}.txt"
+
+echo -n "default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write \"n\": "
+read PARAM_ORIG
+if [ $PARAM_ORIG != "n" ]
+then
+	if [ ! -e $PARAM_ORIG ]
+	then
+		echo "file does not exist!"
+	else
+		cp $PARAM_ORIG $PARAMFILE
+	fi
+else
+	cp "input-files/param-vec.txt" $PARAMFILE
+fi
+		
+echo $OUTFILE >> $PARAMFILE
+
+# create filenames of output files to give to the model
+echo "output-files/l4_firing_rate/${BASENAME}-l4fr.txt" >> $PARAMFILE
+echo "output-files/l23_firing_rate/${BASENAME}-l23fr.txt" >> $PARAMFILE
+
+# deal with -m flag 
+echo -n "start network from given matrix? if yes, provide input filename here, otherwise write \"none\": "
+read MATRIXFILE
+if [ $MATRIXFILE != "none" ]
+then
+	if [ ! -e $MATRIXFILE ]
+	then
+		echo "file does not exist!"
+	else
+		echo $MATRIXFILE >> $PARAMFILE
+	fi
+fi
+
+# create filename of output file for saved weights
+echo "output-files/saved_weights/${BASENAME}-wm.txt" >> $PARAMFILE
+
+# run network
+if [ $MATRIXFILE != "none" ]
+then
+	python3 modelv6.py $PARAMFILE -m -s -w
+else
+	python3 modelv6.py $PARAMFILE -s -w
+fi
+
+echo "Weight matrix file generated: ${BASENAME}-wm.txt"
+python3 plotfuncs.py
+
+echo "Done."
+

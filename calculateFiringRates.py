@@ -11,7 +11,7 @@ def main():
     # get input
     args = sys.argv[1:]
     if len(args) < 2 or len(args) > 4: 
-        print "usage: stimulus_file outputs_file [neuron] [--layer4]"
+        print("usage: stimulus_file outputs_file [neuron] [--layer4]")
         sys.exit(1)
      
     stim_filename = args[0]
@@ -89,8 +89,8 @@ def main():
     for i in range(num_stimuli):
         num_stim_appeared = float(num_timebins_stimulus[i])
         print >> sys.stderr, "Stimulus %d appeared %f times" % (i, num_stim_appeared)
-        print "Stimulus %d," % i,
-        print ", ".join(str(j/num_stim_appeared) for j in indexed_by_stim[i])
+        print("Stimulus %d," % i, end='')
+        print(", ".join(str(j/num_stim_appeared) for j in indexed_by_stim[i]))
     
 
 

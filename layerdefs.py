@@ -114,7 +114,7 @@ class L23:
       if type(given_weight_matrices[1]) is str:
         l23_weight_list = [float(i) for i in given_weight_matrices[1].split(",")]
         if len(l23_weight_list) != (self.n23 * self.n23):
-          print("Error! String provided to initialize L23 recurrent weight matrix must have length n23 * n23.")
+          print("Error! String provided to initialize L23 recurrent weight matrix must have length n23 * n23. String has length %d." % len(l23_weight_list))
           sys.exit(1)
         for nrn in range(self.n23):
           start = nrn * self.n23

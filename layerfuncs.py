@@ -1,5 +1,7 @@
 # contains functions that deal with input and output of layers
 import numpy
+import matplotlib.pyplot as plt
+
 # import layerdefs as ldefs
 
 def excitation(layer, input):

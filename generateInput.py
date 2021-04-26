@@ -16,11 +16,21 @@ def write_seq(out, vecs, linesToPrint):
     for i in range(linesToPrint):
         out.write(vecs[seq_start+i])
 
+def format_time(num):
+    """ converts number to string and adds a 0 at front
+    if there's only one digit"""
+    s = str(num)
+    
+    if len(s) == 1:
+        s = "0" + s
+
+    return s
+
 def create_output_filename(hmm, n):
     # creates output filename in format: 
         # rand-number_of_lines-date.txt, or, 
         # hmm-number_of_lines-date.txt
-    output_filename = "input-files/stims/TEST-"
+    output_filename = "input-files/stims/"
     if hmm:
         output_filename += "hmm-"
     else:
@@ -31,31 +41,32 @@ def create_output_filename(hmm, n):
 
     # date
     today = datetime.today()
-    month = str(today.month)
-    day = str(today.day)
+    month = format_time(today.month)
+    day = format_time(today.day)
 
-    if len(month) == 1:
-        month = "0" + month
-    if len(day) == 1:
-        day = "0" + day
+    # if len(month) == 1:
+    #     month = "0" + month
+    # if len(day) == 1:
+    #     day = "0" + day
 
     datestring = month+day    
     output_filename += ("-" + datestring + ".txt")
 
     if(os.path.exists(output_filename)):
-        change = input("A file with this name already exists! Do you want to overwrite (if no, will add -HHMM-SS)? [y/n]")
+        print("A file with this name already exists! Do you want to overwrite (if no, will add -HHMM-SS)? [y/n]", file=sys.stderr)
+        change = input()
         if change == "n":
             now = datetime.now()
-            hour = str(now.hour)
-            minute = str(now.minute)
-            second = str(now.second)
+            hour = format_time(now.hour)
+            minute = format_time(now.minute)
+            second = format_time(now.second)
 
             timestring = "-" + hour + minute + "-" + second
 
             output_filename = output_filename[:-4]
             output_filename += timestring + ".txt"
         elif change != "y":
-            print("Error! Must respond with 'y' or 'n'.")
+            print("Error! Must respond with 'y' or 'n'.", file=sys.stderr)
             sys.exit(1)
 
     return output_filename
@@ -75,7 +86,7 @@ def main():
     # get arguments
     args = sys.argv[1:]
     if not args or len(args) == 3 or len(args) > 4:
-        print("usage: n (-random or -hmm) [-mode filename]")
+        print("usage: n (-random or -hmm) [-mode filename]", file=sys.stderr)
         sys.exit(1)
 
     n = int(args[0])
@@ -84,7 +95,7 @@ def main():
     if args[1] == "-random":
         hmm = False
     elif args[1] != "-hmm":
-        print("Error! Second argument must be -random or -hmm.")
+        print("Error! Second argument must be -random or -hmm.", file=sys.stderr)
         sys.exit(1)
 
     mode = 'w+'
@@ -139,6 +150,8 @@ def main():
 
 
     out.close()
+
+    print(output_filename, file=sys.stdout)
 
 
 

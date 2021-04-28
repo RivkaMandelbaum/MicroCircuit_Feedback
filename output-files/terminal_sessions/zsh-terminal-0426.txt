@@ -1,0 +1,106 @@
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 901 -random
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-900-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.514458
+Weight matrix file generated: rand-901-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 902 -random
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: param-vec-stdp.txt
+file does not exist!
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-900-0426-wm.txt^C
+
+@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 902 -random
+A file with this name already exists! Do you want to overwrite (if no, will add -HHMM-SS)? [y/n]
+y
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-900-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.416948
+Weight matrix file generated: rand-902-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 901 -hmm
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-900-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.646563
+Weight matrix file generated: hmm-901-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 902 -hmm
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-900-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.740365
+Weight matrix file generated: hmm-902-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 903 -random
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/rand-901-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.437756
+Weight matrix file generated: rand-903-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~bin/autonet 903 -hmm
+zsh: no such user or named directory: bin
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 903 -hmm
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write n: input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write none: output-files/saved_weights/hmm-901-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 3.608970
+Weight matrix file generated: hmm-903-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 101 -random
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write "n": n
+start network from given matrix? if yes, provide input filename here, otherwise write "none": none
+Starting.
+Finished. Total time: 0.429978
+Weight matrix file generated: rand-101-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 102 -random
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write "n": input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write "none": output-files/saved_weights/rand-101-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 0.906189
+Weight matrix file generated: rand-102-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % ~/bin/autonet 102 -hmm   
+default parameter vector file is input-files/param-vec.txt. would you like to specify a different file? if yes, provide filename, otherwise write "n": input-files/param-vec-stdp.txt
+start network from given matrix? if yes, provide input filename here, otherwise write "none": output-files/saved_weights/rand-101-0426-wm.txt
+Starting.
+/Users/rivkamandelbaum/Desktop/Berry Lab Project/MicroCircuit_Feedback/layerfuncs.py:17: RuntimeWarning: overflow encountered in exp
+  excit_exp = numpy.exp(excit_transform)
+Finished. Total time: 0.902136
+Weight matrix file generated: hmm-102-0426-wm.txt
+weight matrix filename (no directories), or 'done': done
+Done.
+rivkamandelbaum@rivkas-mbp MicroCircuit_Feedback % 
+

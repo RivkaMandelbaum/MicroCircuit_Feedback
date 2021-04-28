@@ -1,0 +1,3 @@
+input-files/stims/rand-900-0426-1641-05.txt
+output-files/l4_firing_rate/rand-900-0426-1641-05-l4fr.txt
+output-files/l23_firing_rate/rand-900-0426-1641-05-l23fr.txt

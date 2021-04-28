@@ -1,0 +1,6 @@
+72 0 0 36 9 4 3 0 -1 False
+input-files/stims/rand-30-0422.txt
+output-files/l4_firing_rate/rand-30-0422-l4fr.txt
+output-files/l23_firing_rate/rand-30-0422-l23fr.txt
+output-files/saved_weights/hmm-90-0422-wm.txt
+output-files/saved_weights/rand-30-0422-wm.txt

@@ -1,0 +1,5 @@
+72 0 .2 36 9 4 3 0 -1 False
+input-files/stims/rand-1-0420.txt
+output-files/l4_firing_rate/rand-1-0420-l4fr.txt
+output-files/l23_firing_rate/rand-1-0420-l23fr.txt
+output-files/l23_saved_weights/rand-1-0420-l23wm.txt

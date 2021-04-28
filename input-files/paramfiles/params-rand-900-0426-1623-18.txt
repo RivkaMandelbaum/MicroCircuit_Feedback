@@ -1,0 +1,6 @@
+72 0 0 36 9 4 3 0 -1 False
+input-files/stims/rand-900-0426-1623-18.txt
+output-files/l4_firing_rate/rand-900-0426-1623-18-l4fr.txt
+output-files/l23_firing_rate/rand-900-0426-1623-18-l23fr.txt
+output-files/saved_weights/rand-900-0426-wm.txt
+output-files/saved_weights/rand-900-0426-1623-18-wm.txt

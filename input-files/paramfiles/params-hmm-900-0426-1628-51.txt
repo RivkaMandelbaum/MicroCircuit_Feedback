@@ -1,0 +1,6 @@
+72 0 0.2 36 9 4 3 0 -1 False
+input-files/stims/hmm-900-0426-1628-51.txt
+output-files/l4_firing_rate/hmm-900-0426-1628-51-l4fr.txt
+output-files/l23_firing_rate/hmm-900-0426-1628-51-l23fr.txt
+output-files/saved_weights/hmm-900-0426-wm.txt
+output-files/saved_weights/hmm-900-0426-1628-51-wm.txt

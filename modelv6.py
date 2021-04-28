@@ -100,7 +100,8 @@ def main():
     # one flag
     if len(args) == 1:
       if args[0] == "-m":
-        matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+        matrices_filename = (param_file.readline()).rstrip('\n')
+        matrices_file = open(matrices_filename, 'r')
         flag_m = True
       elif args[0] == "-s":
         save_file = open((param_file.readline()).rstrip('\n'), mode)
@@ -112,7 +113,8 @@ def main():
     elif len(args) == 2: 
       # -m first
       if args[0] == "-m":
-        matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+        matrices_filename = (param_file.readline()).rstrip('\n')
+        matrices_file = open(matrices_filename, 'r')
         flag_m = True
         if args[1] == "-s":
           save_file = open((param_file.readline()).rstrip('\n'), mode)
@@ -125,7 +127,8 @@ def main():
         save_file = open((param_file.readline()).rstrip('\n'), mode)
         flag_s = True
         if args[1] == "-m":
-          matrices_file = open((param_file.readline()).rstrip('\n'), 'r')
+          matrices_filename = (param_file.readline()).rstrip('\n')
+          matrices_file = open(matrices_filename, 'r')
           flag_m = True
         else:
           print("Only -s, -m, and -w are valid flags")
@@ -248,16 +251,27 @@ def main():
     l23_out.write('\n')
   l23_out.close()
 
-  # plot
-  # l4_plot_name = l4_out_name.split('.')[0] + ".png"
-  # pltf.plot_firing_rates(l4_freqs, l4_plot_name, "layer 4")
-
-  # l23_plot_name = l23_out_name.split('.')[0] + ".png"
-  # pltf.plot_firing_rates(l23_freqs, l23_plot_name, "recurrent 2-3")
+  # plot (if previous versison given)
   if flag_m:
+    # create filenames
     base_plot_name = l4_out_name.split('/')[-1] # remove directories
     base_plot_name = base_plot_name.split('.')[0] # remove extension
     base_plot_name = '-'.join(base_plot_name.split('-')[0:-1]) # remove description
+
+    base_prev_name = matrices_filename.split('/')[-1] 
+
+    l4_prev_name = "output-files/l4_firing_rate/" + base_prev_name
+    l4_prev_name = l4_prev_name.replace("wm", "l4fr")
+
+    l23_prev_name = l4_prev_name.replace("l4", "l23")
+
+    # plot firing rates in layer 4
+    pltf.plot_firing_rate_changes((base_plot_name + "-l4fr-comp"), l4_prev_name, post_freqs=l4_out_name.rstrip('\n'), input_type="file", layer_label="layer 4")
+
+    # plot firing rates in layer 2/3
+    pltf.plot_firing_rate_changes((base_plot_name + "-l23fr-comp"), l23_prev_name, post_freqs=l23_out_name.rstrip('\n'), input_type="file", layer_label="layer 2/3")
+
+    # plot weights in layer 2/3
     pltf.plot_weight_changes(base_plot_name, l23_input_string, l23_recurrent_string, l23)
 
   # save weight matrices to file if -s flag specified

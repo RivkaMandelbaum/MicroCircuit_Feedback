@@ -45,7 +45,7 @@ def main():
 
         weight_string = in_file.readline()
         if weight_string == '':
-            print "Error! Insufficient number of weight matrices."
+            print("Error! Insufficient number of weight matrices.")
 
         weight_list = weight_string.split(",")
         
@@ -57,7 +57,7 @@ def main():
         dimension_line = in_file.readline()
 
     et = time.clock()
-    print "Time: %f" % (et - st)
+    print("Time: %f" % (et - st))
     
 
 

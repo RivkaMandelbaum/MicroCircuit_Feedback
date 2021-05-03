@@ -29,10 +29,10 @@ def format_time(num):
 def create_output_filename(hmm, n):
     # creates output filename in format: 
         # rand-number_of_lines-date.txt, or, 
-        # hmm-number_of_lines-date.txt
+        # seq-number_of_lines-date.txt
     output_filename = "input-files/stims/"
     if hmm:
-        output_filename += "hmm-"
+        output_filename += "seq-"
     else:
         output_filename += "rand-"
     
@@ -43,11 +43,6 @@ def create_output_filename(hmm, n):
     today = datetime.today()
     month = format_time(today.month)
     day = format_time(today.day)
-
-    # if len(month) == 1:
-    #     month = "0" + month
-    # if len(day) == 1:
-    #     day = "0" + day
 
     datestring = month+day    
     output_filename += ("-" + datestring + ".txt")
@@ -75,27 +70,27 @@ def create_output_filename(hmm, n):
 def main():
     """ creates n lines of input to the network, where each line of 
     input is one of the vec[1-9].txt files in input-files/vecs. The
-    input is in random order if -random specified, and contains sequences
-    mixed with noise if -hmm is specified. 
+    input is in random order if -rand specified, and contains sequences
+    mixed with noise if -seq is specified. 
     By default, the program creates a file in input-files/stims named: 
-    (rand/hmm)-(number of lines)-(MMDD).txt and places output there. 
+    (rand/seq)-(number of lines)-(MMDD).txt and places output there. 
     Access mode and output filename can be specified on the command line, e.g.
-    python3 generateInput.py 100 -random -w existingfile.txt would overwrite
+    python3 generateInput.py 100 -rand -w existingfile.txt would overwrite
     existing file with 100 random stimuli. 
     """
     # get arguments
     args = sys.argv[1:]
     if not args or len(args) == 3 or len(args) > 4:
-        print("usage: n (-random or -hmm) [-mode filename]", file=sys.stderr)
+        print("usage: n (-rand or -seq) [-mode filename]", file=sys.stderr)
         sys.exit(1)
 
     n = int(args[0])
     hmm = True
 
-    if args[1] == "-random":
+    if args[1] == "-rand":
         hmm = False
-    elif args[1] != "-hmm":
-        print("Error! Second argument must be -random or -hmm.", file=sys.stderr)
+    elif args[1] != "-seq":
+        print("Error! Second argument must be -random or -seq.", file=sys.stderr)
         sys.exit(1)
 
     mode = 'w+'
@@ -104,7 +99,7 @@ def main():
         mode = mode_flag[1:]
         output_filename = args[3]
     else:
-        # filename format is: rand/hmm-number_of_lines-date.txt 
+        # filename format is: rand/seq-number_of_lines-date.txt 
         output_filename = create_output_filename(hmm, str(n))
 
 
@@ -129,7 +124,7 @@ def main():
     # write to file
     out = open(output_filename, mode=mode)
 
-    # if "-random" provided, write n random stimuli
+    # if "-rand" provided, write n random stimuli
     if not hmm: 
         write_random(out, n, vecs)
     # otherwise write using hidden markov model with temporal sequences

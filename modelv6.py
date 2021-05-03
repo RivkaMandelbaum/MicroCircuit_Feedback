@@ -251,7 +251,7 @@ def main():
     l23_out.write('\n')
   l23_out.close()
 
-  # plot (if previous versison given)
+  # plot (if previous version given)
   if flag_m:
     # create filenames
     base_plot_name = l4_out_name.split('/')[-1] # remove directories

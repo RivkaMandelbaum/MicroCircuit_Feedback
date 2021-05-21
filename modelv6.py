@@ -5,6 +5,7 @@ import layerdefs as ldefs
 import layerfuncs as lfuncs
 import plotfuncs as pltf
 import os
+import math 
 
 def main():
   """ Reads filename and flags from command line. The file named should contain:
@@ -25,6 +26,8 @@ def main():
         updated to use python 3
         adding subroutine that creates plots
         works with the script autonet now
+        added STDP cap 
+        added renormalization step 
   """
 
   # -------- input ------------------------
@@ -189,10 +192,18 @@ def main():
   l4_spiking_input = lfuncs.spikevec_where(l4_spike_vec)
 
   l4_out_matrix.append(l4_spike_vec)
+  
+  # some timing information 
+  sum_l23_time = 0
+  sum_stdp_time = 0
+  sum_renormalize_time = 0
+  sum_l4_time = 0
 
   # ---- main network loop -------------------------------
   # give the network each stimulus, updating firing rates
   for t in range(2, len(stimuli)):
+    pre_l23_time = time.time() 
+
     curr_stim = stimuli[t]
 
     # calculate excitation of L23 at time t = inputWeightMatrix * L4_(t-1) + recurrentWeightMatrix * L_23(t-1)
@@ -200,6 +211,7 @@ def main():
 
     # turn excitation into spikes
     l23_sig = lfuncs.sig_prob(l23_exc, beta, theta)
+    #print(l23_sig, file=sys.stderr)
     l23_spike_vec = lfuncs.probvec_to_spikevec(l23_sig)
 
     # save spikes and firing rates
@@ -211,14 +223,30 @@ def main():
     for nrn in l23_spiking_input:
       l23_freqs[nrn] += 1
 
+    post_l23_time = time.time()
+
     # use saved spikes and current spikes to implement stdp rule:
     # synapse k>k' is represented by l23.recurrentWeightMatrix[k'][k]
     # for k>k', if k spiked in t-1 and k' spiked in t, increase weight by eta
     # if k spiked in t and k' in t-1, decrease weight by eta
     for curr_spike in l23_spiking_input: 
       for prev_spike in prev_l23_spiking_input:
-        l23.recurrentWeightMatrix[curr_spike][prev_spike] += l23.eta
-        l23.recurrentWeightMatrix[prev_spike][curr_spike] -= l23.eta
+        l23.recurrentWeightMatrix[curr_spike][prev_spike] += (l23.eta/math.sqrt(l23.n23))
+        if l23.recurrentWeightMatrix[curr_spike][prev_spike] > 1:
+          l23.recurrentWeightMatrix[curr_spike][prev_spike] = 1.0
+        l23.recurrentWeightMatrix[prev_spike][curr_spike] -= (l23.eta/math.sqrt(l23.n23))
+        if l23.recurrentWeightMatrix[prev_spike][curr_spike] < -1:
+          l23.recurrentWeightMatrix[prev_spike][curr_spike] = -1.0
+    post_stdp_time = time.time()
+
+    # renormalize weights in the recurrent matrix
+    for k in range(l23.n23):
+      vec = l23.recurrentWeightMatrix[k]
+      w = lfuncs.rms_value(vec)
+      for k_prime in range(l23.n23):
+        vec[k_prime] /= w
+
+    post_renorm_time = time.time()
 
     # calculate excitation of L4 at time t
     l4_exc = lfuncs.excitation(l4, curr_stim)
@@ -233,7 +261,20 @@ def main():
     l4_spiking_input = lfuncs.spikevec_where(l4_spike_vec)
     for nrn in l4_spiking_input:
       l4_freqs[nrn] += 1
+    
+    post_l4_time = time.time()
+
+    # do timing calculations 
+    sum_l23_time += (post_l23_time - pre_l23_time)
+    sum_stdp_time += (post_stdp_time - post_l23_time)
+    sum_renormalize_time += (post_renorm_time - post_stdp_time)
+    sum_l4_time += (post_l4_time - post_renorm_time)
   
+  # end of loop timing calculations
+  times = [sum_l23_time, sum_stdp_time, sum_renormalize_time, sum_l4_time]
+  print("\tL23 calculation\t STDP calculation\t Renormalization\t L4 calculation")
+  print("Total time: " + str(times))
+
   # write firing rates to output files in plottable format 
   for f in l4_freqs:
     l4_out.write("%d, " % f)
@@ -283,7 +324,7 @@ def main():
     (l23.recurrentWeightMatrix).tofile(save_file, sep= ",", format = "%s")
 
   end_time = time.time()
-  print("Finished. Total time: %f" % (end_time - start_time))
+  print("Finished. Total time: %f. Time in loop: %f." % ((end_time - start_time), sum(times)))
 
 
 

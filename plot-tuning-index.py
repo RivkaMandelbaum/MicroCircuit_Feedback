@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 def main(): 
     """ arguments: prefile name, postfile name
+        (files should contain the line of output of running calculateFiringRates.py with -index created after "Tuning indices:")
         if scatter desired: xlabel, ylabel for scatter
         if ylim desired: bottom, top
     """

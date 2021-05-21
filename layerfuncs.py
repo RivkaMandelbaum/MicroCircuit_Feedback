@@ -1,6 +1,8 @@
 # contains functions that deal with input and output of layers
 import numpy
 import matplotlib.pyplot as plt
+import sys
+import math
 
 # import layerdefs as ldefs
 
@@ -14,6 +16,7 @@ def sig_prob(excit_vec, beta, theta):
     """ given an excitation vector, and parameters beta (constant)and theta (threshold) for sig function, return the probability vector representing probability of firing for each neuron in the vector
     """
     excit_transform = -beta * (excit_vec - theta) # operators work elementwise
+    #print(excit_transform, file=sys.stderr)
     excit_exp = numpy.exp(excit_transform)
 
     return 1/(1 + excit_exp)
@@ -74,3 +77,9 @@ def net_input_vector(weight_matrix, spiking_input):
     m = len(weight_matrix)
     result_vec = [net_input(weight_matrix, i, spiking_input) for i in range(m)]
     return numpy.array(result_vec)
+
+def rms_value(weight_vector):
+    sum_weights = 0
+    for synapse_weight in weight_vector:
+        sum_weights += synapse_weight * synapse_weight
+    return math.sqrt(sum_weights)

@@ -1,0 +1,6 @@
+72 0 0 36 9 4 3 0 -1 False
+input-files/stims/rand-900-cond1-cap.txt
+output-files/l4_firing_rate/cond3postrand-cap-l4fr.txt
+output-files/l23_firing_rate/cond3postrand-cap-l23fr.txt
+output-files/saved_weights/cond2rand-cap-wm.txt
+output-files/saved_weights/cond3postrand-cap-wm.txt

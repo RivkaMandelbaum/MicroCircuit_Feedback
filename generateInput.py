@@ -90,7 +90,7 @@ def main():
     if args[1] == "-rand":
         hmm = False
     elif args[1] != "-seq":
-        print("Error! Second argument must be -random or -seq.", file=sys.stderr)
+        print("Error! Second argument must be -rand or -seq.", file=sys.stderr)
         sys.exit(1)
 
     mode = 'w+'

@@ -1,0 +1,32 @@
+Cond1, cond3 r/s
+Stimulus 0 appeared 1038.000000 times
+Stimulus 1 appeared 985.000000 times
+Stimulus 2 appeared 1025.000000 times
+Stimulus 3 appeared 967.000000 times
+Stimulus 4 appeared 1007.000000 times
+Stimulus 5 appeared 1007.000000 times
+Stimulus 6 appeared 968.000000 times
+Stimulus 7 appeared 979.000000 times
+Stimulus 8 appeared 1023.000000 times
+
+Cond2 rand 
+Stimulus 0 appeared 981.000000 times
+Stimulus 1 appeared 983.000000 times
+Stimulus 2 appeared 1028.000000 times
+Stimulus 3 appeared 970.000000 times
+Stimulus 4 appeared 1053.000000 times
+Stimulus 5 appeared 990.000000 times
+Stimulus 6 appeared 944.000000 times
+Stimulus 7 appeared 1014.000000 times
+Stimulus 8 appeared 1036.000000 times
+
+Cond2 seq
+Stimulus 0 appeared 1060.000000 times
+Stimulus 1 appeared 1054.000000 times
+Stimulus 2 appeared 1035.000000 times
+Stimulus 3 appeared 970.000000 times
+Stimulus 4 appeared 995.000000 times
+Stimulus 5 appeared 989.000000 times
+Stimulus 6 appeared 964.000000 times
+Stimulus 7 appeared 966.000000 times
+Stimulus 8 appeared 966.000000 times

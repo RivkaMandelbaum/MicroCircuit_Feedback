@@ -1,0 +1,6 @@
+72 0 0 36 9 4 3 0 -1 False
+input-files/stims/rand-9000-0429-cond1.txt
+output-files/l4_firing_rate/test-overload-hypothesis-eta2-l4fr3.txt
+output-files/l23_firing_rate/test-overload-hypothesis-eta2-l23fr3.txt
+output-files/saved_weights/test-overload-hypothesis-eta2-wm2.txt
+output-files/saved_weights/test-overload-hypothesis-eta2-wm3.txt

@@ -30,6 +30,9 @@ def tuning_index(matrices):
 
         tuning_index = (preferred-other_avg)/(preferred+other_avg)
         tuning_indices.append(tuning_index)
+
+        # find which neuron(s) it's tuned to
+        print(responses.index(preferred), file=sys.stderr, end=', ')
     
     print("Tuning indices:")
     print(tuning_indices)

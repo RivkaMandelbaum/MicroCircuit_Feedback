@@ -1,0 +1,6 @@
+72 0 .01 36 9 4 3 0 -1 False
+input-files/stims/seq-900-cond2-cap.txt
+output-files/l4_firing_rate/cond2seq-cap-l4fr.txt
+output-files/l23_firing_rate/cond2seq-cap-l23fr.txt
+output-files/saved_weights/cond1-cap-wm.txt
+output-files/saved_weights/cond2seq-cap-wm.txt
